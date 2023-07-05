@@ -311,7 +311,7 @@ export default {
 
     showfeatures() {
       if (this.$route.params.id) {
-        axios.get(`about-us-features/${this.$route.params.id}`).then(res => {
+        axios.get(`admin/about-us-features/${this.$route.params.id}`).then(res => {
           // eslint-disable-next-line prefer-destructuring
           this.featuresForm = res.data.data[0]
         })

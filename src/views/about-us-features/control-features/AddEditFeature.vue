@@ -311,7 +311,7 @@ export default {
 
     showfeatures() {
       if (this.$route.params.id) {
-        axios.get(`about-us-features/${this.$route.params.id}`).then(res => {
+        axios.get(`admin/about-us-features/${this.$route.params.id}`).then(res => {
           // eslint-disable-next-line prefer-destructuring
           this.featuresForm = res.data.data[0]
         })
@@ -344,7 +344,6 @@ export default {
         for (const key in this.featuresForm) {
           if (key !== 'icon') {
             formData.append(key, this.featuresForm[key])
-            console.log(key, this.featuresForm[key])
           }
         }
         formData.delete('icon')
@@ -363,7 +362,6 @@ export default {
             })
           }
         }).catch(error => {
-          console.log(error.response, 'error')
           if (error.response.status === 500) {
             this.$toast({
               component: ToastificationContent,
@@ -386,7 +384,6 @@ export default {
         for (const key in this.featuresForm) {
           if (key !== 'icon') {
             formData.append(key, this.featuresForm[key])
-            console.log(key, this.featuresForm[key])
           }
         }
         formData.delete('icon')

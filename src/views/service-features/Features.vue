@@ -38,7 +38,7 @@ export default {
   components: { GeneralTable },
   data() {
     return {
-      APIURL: 'about-us-features',
+      APIURL: 'about-us-features?type=services',
       addType: 'Add Features',
       addComponentName: 'add-service-features',
       editComponent: 'edit-service-features',
@@ -49,7 +49,7 @@ export default {
         { key: 'icon', label: 'icon' },
         { key: 'title', label: 'Title' },
         { key: 'position', label: 'Position' },
-        { key: 'description', label: 'Description' },
+        { key: 'content', label: 'Content' },
         { key: 'created_at', label: 'Created At' },
         { key: 'actions' },
       ],

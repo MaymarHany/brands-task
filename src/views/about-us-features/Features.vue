@@ -38,7 +38,7 @@ export default {
   components: { GeneralTable },
   data() {
     return {
-      APIURL: 'about-us-features',
+      APIURL: 'about-us-features?type=about_us',
       addType: 'Add Features',
       addComponentName: 'add-about-us-features',
       editComponent: 'edit-about-us-features',

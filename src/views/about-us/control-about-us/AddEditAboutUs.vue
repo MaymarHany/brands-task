@@ -495,7 +495,7 @@ export default {
       this.dataLoad = true
 
       if (this.$route.params.id) {
-        axios.get(`about-us-show/${this.$route.params.id}`).then(res => {
+        axios.get(`admin/about-us-show/${this.$route.params.id}`).then(res => {
           // eslint-disable-next-line prefer-destructuring
           this.aboutForm = res.data.data[0]
         }).catch(() => {
@@ -552,7 +552,7 @@ export default {
         }
 
         axios.post(`admin/about-us-sections/${this.$route.params.id}`, formData).then(res => {
-          if (res.status === 200) {
+          if (res.status === 200 || res.status === 201) {
             this.$router.push({ name: 'about-us' })
             this.$toasted.show('Updated Successfully', {
               position: 'top-center',
