@@ -146,7 +146,38 @@
             </b-form-group>
           </validation-provider>
         </b-col>
-
+        <b-col
+          md="6"
+        >
+          <validation-provider
+            #default="validationContext"
+          >
+            <b-form-group
+              v-slot="{ ariaDescribedby }"
+              label="Show in"
+            >
+              <b-form-radio
+                v-model="aboutForm.hidden"
+                :aria-describedby="ariaDescribedby"
+                name="hidden"
+                value="0"
+              >
+                About Us
+              </b-form-radio>
+              <b-form-radio
+                v-model="aboutForm.hidden"
+                :aria-describedby="ariaDescribedby"
+                name="hidden"
+                value="1"
+              >
+                Home
+              </b-form-radio>
+              <b-form-invalid-feedback>
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </validation-provider>
+        </b-col>
         <b-col cols="6">
           <b-media
             no-body
@@ -351,150 +382,15 @@ export default {
         // eslint-disable-next-line prefer-destructuring
       }
     },
-    deleteImg(id, index) {
-      if (id) {
-        axios.get(`admin/delete_campaign_media/${id}`).then(res => {
-          if (res.status === 200) {
-            this.showType()
-            this.$toast({
-              component: ToastificationContent,
-              props: {
-                title: 'Deleted Succesfully',
-                icon: 'BellIcon',
-                variant: 'success',
-              },
-            })
-          } else {
-            this.$toast({
-              component: ToastificationContent,
-              props: {
-                title: 'Server Error',
-                icon: 'BellIcon',
-                variant: 'danger',
-              },
-            })
-          }
-        }).catch(() => {
-        // this.formData = new FormData()
-        }).finally(() => {
-          this.dataLoad = false
-        })
-      } else {
-        this.aboutForm.images.splice(index, 1)
-        this.images.splice(index, 1)
-        this.$toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Deleted Succesfully',
-            icon: 'BellIcon',
-            variant: 'success',
-          },
-        })
-      }
-    },
-    deleteCard(id, index) {
-      if (this.cardsCount > 1) {
-        if (id) {
-          axios.get(`admin/delete_card/${id}`).then(res => {
-            if (res.status === 200) {
-              this.showType()
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: 'Deleted Succesfully',
-                  icon: 'BellIcon',
-                  variant: 'success',
-                },
-              })
-            } else {
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: 'Server Error',
-                  icon: 'BellIcon',
-                  variant: 'danger',
-                },
-              })
-            }
-          }).catch(() => {
-            // this.formData = new FormData()
-          }).finally(() => {
-            this.loader = false
-          })
-        } else {
-          this.cards.splice(index, 1)
-          this.cardsCount -= 1
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Deleted Succesfully',
-              icon: 'BellIcon',
-              variant: 'success',
-            },
-          })
-        }
-      } else {
-        this.$toast({
-          component: ToastificationContent,
-          props: {
-            title: 'At Least one card is required',
-            icon: 'BellIcon',
-            variant: 'danger',
-          },
-        })
-      }
-    },
-    deleteVideo(id, index) {
-      if (id) {
-        axios.get(`admin/delete_campaign_media/${id}`).then(res => {
-          if (res.status === 200) {
-            this.showType()
-            this.$toast({
-              component: ToastificationContent,
-              props: {
-                title: 'Deleted Succesfully',
-                icon: 'BellIcon',
-                variant: 'success',
-              },
-            })
-          } else {
-            this.$toast({
-              component: ToastificationContent,
-              props: {
-                title: 'Server Error',
-                icon: 'BellIcon',
-                variant: 'danger',
-              },
-            })
-          }
-        }).catch(() => {
-          // this.formData = new FormData()
-        }).finally(() => {
-          this.loader = false
-        })
-      } else {
-        this.videos.splice(index, 1)
 
-        this.videosCount -= 1
-
-        this.$toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Deleted Succesfully',
-            icon: 'BellIcon',
-            variant: 'success',
-          },
-        })
-      }
-    },
     openCardDialog(card) {
       this.cardEdit = card
       this.$refs.editCard.show()
     },
     showType() {
-      this.dataLoad = true
-
       if (this.$route.params.id) {
+        this.dataLoad = true
+
         axios.get(`admin/about-us-show/${this.$route.params.id}`).then(res => {
           // eslint-disable-next-line prefer-destructuring
           this.aboutForm = res.data.data[0]

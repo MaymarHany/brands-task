@@ -29,18 +29,23 @@ export default [
     icon: 'TwitchIcon',
     action: 'browes',
   },
-  {
-    title: 'Categories',
-    route: 'categories',
-    icon: 'LayersIcon',
-    action: 'browes',
-  },
-  {
-    title: 'Features',
-    route: 'features',
-    icon: 'FeatherIcon',
-    action: 'browes',
 
+  {
+    title: 'Our Features',
+    icon: 'FeatherIcon',
+    children: [
+      {
+        title: 'Categories',
+        route: 'categories',
+        action: 'browes',
+      },
+      {
+        title: 'Features',
+        route: 'features',
+        action: 'browes',
+
+      },
+    ],
   },
   {
     title: 'About Us',
