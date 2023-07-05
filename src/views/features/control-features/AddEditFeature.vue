@@ -2,6 +2,7 @@
   <b-card>
     <validation-observer
       ref="infoRules"
+      v-slot="{ invalid }"
       tag="form"
     >
       <b-row>
@@ -110,6 +111,7 @@
         <b-col md="6">
           <validation-provider
             #default="validationContext"
+            rules="required"
             name="Categories"
           >
             <b-form-group
@@ -149,6 +151,7 @@
             v-if="!loader && $route.params.id"
             variant="primary"
             class="mr-1"
+            :disabled="invalid || Object.values(errors).length > 0"
             @click="addfeatures()"
           >
             Save Changes
@@ -157,6 +160,7 @@
             v-if="!loader && !$route.params.id"
             variant="primary"
             class="mr-1"
+            :disabled="invalid || Object.values(errors).length > 0"
             @click="addfeatures()"
           >
             Add
@@ -205,6 +209,7 @@ export default {
       countryId: '',
       loader: false,
       errorMsg: '',
+      errors: {},
 
     }
   },
@@ -276,6 +281,8 @@ export default {
           formData.append(key, this.featuresForm[key])
         }
         formData.delete('created_at')
+        formData.delete('category_ar_name')
+        formData.delete('category_en_name')
 
         axios.post(`admin/features/${this.$route.params.id}`, formData).then(res => {
           if (res.status === 200 || res.status === 201) {

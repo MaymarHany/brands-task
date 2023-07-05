@@ -9,6 +9,31 @@
           <!-- Name -->
           <validation-provider
             #default="validationContext"
+            name="Question In English"
+            rules="required"
+          >
+            <b-form-group
+              label="Question In English"
+              label-for="question_en"
+            >
+              <b-form-input
+                id="question_en"
+                v-model="FAQsForm.en_question"
+                autofocus
+                :state="getValidationState(validationContext)"
+                trim
+                placeholder="question In English"
+              />
+              <b-form-invalid-feedback>
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </validation-provider>
+        </b-col>
+        <b-col md="6">
+          <!-- Name -->
+          <validation-provider
+            #default="validationContext"
             name="Question In Arabic"
             rules="required"
           >
@@ -34,57 +59,6 @@
           <!-- Name -->
           <validation-provider
             #default="validationContext"
-            name="Question In English"
-            rules="required"
-          >
-            <b-form-group
-              label="Question In English"
-              label-for="question_en"
-            >
-              <b-form-input
-                id="question_en"
-                v-model="FAQsForm.en_question"
-                autofocus
-                :state="getValidationState(validationContext)"
-                trim
-                placeholder="question In English"
-              />
-              <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-        </b-col>
-
-        <b-col md="6">
-          <!-- Name -->
-          <validation-provider
-            #default="validationContext"
-            name="Answer In Arabic"
-            rules="required"
-          >
-            <b-form-group
-              label="Answer In Arabic"
-              label-for="answer_ar"
-            >
-              <b-form-input
-                id="answer_ar"
-                v-model="FAQsForm.ar_answer"
-                autofocus
-                :state="getValidationState(validationContext)"
-                trim
-                placeholder="Answer In Arabic"
-              />
-              <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-        </b-col>
-        <b-col md="6">
-          <!-- Name -->
-          <validation-provider
-            #default="validationContext"
             name="Answer In English"
             rules="required"
           >
@@ -92,7 +66,8 @@
               label="Answer In English"
               label-for="answer_en"
             >
-              <b-form-input
+              <b-form-textarea
+
                 id="answer_en"
                 v-model="FAQsForm.en_answer"
                 autofocus
@@ -106,6 +81,32 @@
             </b-form-group>
           </validation-provider>
         </b-col>
+        <b-col md="6">
+          <!-- Name -->
+          <validation-provider
+            #default="validationContext"
+            name="Answer In Arabic"
+            rules="required"
+          >
+            <b-form-group
+              label="Answer In Arabic"
+              label-for="answer_ar"
+            >
+              <b-form-textarea
+                id="answer_ar"
+                v-model="FAQsForm.ar_answer"
+                autofocus
+                :state="getValidationState(validationContext)"
+                trim
+                placeholder="Answer In Arabic"
+              />
+              <b-form-invalid-feedback>
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </validation-provider>
+        </b-col>
+
         <b-col
           v-if="errorMsg"
           cols="12"

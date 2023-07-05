@@ -165,19 +165,19 @@
           <!-- insagram -->
           <validation-provider
             #default="validationContext"
-            name="insagram"
+            name="instagram"
           >
             <b-form-group
-              label="Insagram"
-              label-for="Insagram"
+              label="Instagram"
+              label-for="Instagram"
             >
               <b-form-input
-                id="insagram"
-                v-model="socialForm.insagram"
+                id="instagram"
+                v-model="socialForm.instagram"
                 autofocus
                 :state="getValidationState(validationContext)"
                 trim
-                placeholder="Insagram"
+                placeholder="Instagram"
               />
               <b-form-invalid-feedback>
                 {{ validationContext.errors[0] }}
@@ -552,7 +552,7 @@ export default {
       }
 
       this.loader = true
-      axios.put('admin/socials', formData).then(res => {
+      axios.post('admin/socials', formData).then(res => {
         if (res.status === 200 || res.status === 201) {
           this.showSocial()
           this.$toasted.show('Updated Successfully', {

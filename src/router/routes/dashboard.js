@@ -236,6 +236,182 @@ export default [
     },
   },
   {
+    path: '/about-us-features',
+    name: 'about-us-features',
+    component: () => import('@/views/about-us-features/Features.vue'),
+    meta: {
+      title: 'About Us Features - propertyNet',
+      requiresAuth: true,
+      resource: 'features',
+      pageTitle: 'About Us Features',
+      breadcrumb: [
+        {
+          text: 'About Us Features',
+        },
+        {
+          text: 'List',
+          active: true,
+        },
+      ],
+    },
+  },
+  {
+    path: '/about-us-features/add',
+    name: 'add-about-us-features',
+    component: () => import('@/views/about-us-features/control-features/AddEditFeature.vue'),
+    meta: {
+      title: 'Add About Us Features - propertyNet',
+      requiresAuth: false,
+      resource: 'offers',
+      pageTitle: 'About Us Features',
+      breadcrumb: [
+        {
+          text: 'About Us Features',
+          to: '/about-us-features',
+        },
+        {
+          text: 'Add',
+          active: true,
+        },
+      ],
+    },
+  },
+  {
+    path: '/about-us-features/edit/:id',
+    name: 'edit-about-us-features',
+    component: () => import('@/views/about-us-features/control-features/AddEditFeature.vue'),
+    meta: {
+      title: 'Edit About Us Features - propertyNet',
+      requiresAuth: false,
+      pageTitle: 'About Us Features',
+      breadcrumb: [
+        {
+          text: 'About Us Features',
+          to: '/about-us-features',
+        },
+        {
+          text: 'Edit',
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
+    path: '/service-features',
+    name: 'service-features',
+    component: () => import('@/views/service-features/Features.vue'),
+    meta: {
+      title: 'Services Features - propertyNet',
+      requiresAuth: true,
+      resource: 'features',
+      pageTitle: 'Services Features',
+      breadcrumb: [
+        {
+          text: 'Services Features',
+        },
+        {
+          text: 'List',
+          active: true,
+        },
+      ],
+    },
+  },
+  {
+    path: '/service-features/add',
+    name: 'add-service-features',
+    component: () => import('@/views/service-features/control-features/AddEditFeature.vue'),
+    meta: {
+      title: 'Add Services Features - propertyNet',
+      requiresAuth: false,
+      resource: 'offers',
+      pageTitle: 'Services Features',
+      breadcrumb: [
+        {
+          text: 'Services Features',
+          to: '/service-features',
+        },
+        {
+          text: 'Add',
+          active: true,
+        },
+      ],
+    },
+  },
+  {
+    path: '/service-features/edit/:id',
+    name: 'edit-service-features',
+    component: () => import('@/views/service-features/control-features/AddEditFeature.vue'),
+    meta: {
+      title: 'Edit Services Features - propertyNet',
+      requiresAuth: false,
+      pageTitle: 'Services Features',
+      breadcrumb: [
+        {
+          text: 'Services Features',
+          to: '/service-features',
+        },
+        {
+          text: 'Edit',
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
+    path: '/services',
+    name: 'services',
+    component: () => import('@/views/services/Services.vue'),
+    meta: {
+      title: 'Services',
+      requiresAuth: true,
+      pageTitle: 'Services',
+
+      resource: 'service',
+    },
+  },
+  {
+    path: '/services/add',
+    name: 'add-service',
+    component: () => import('@/views/services/control-service/AddEditService.vue'),
+    meta: {
+      title: 'Add Service - propertyNet',
+      requiresAuth: false,
+      pageTitle: 'Services',
+      breadcrumb: [
+        {
+          text: 'Services',
+          to: '/services',
+        },
+        {
+          text: 'Add',
+          active: true,
+        },
+      ],
+    },
+  },
+  {
+    path: '/service/edit/:id',
+    name: 'edit-service',
+    component: () => import('@/views/services/control-service/AddEditService.vue'),
+    meta: {
+      title: 'Edit Service- propertyNet',
+      requiresAuth: false,
+      pageTitle: 'Services',
+      breadcrumb: [
+        {
+          text: 'Services',
+          to: '/services',
+        },
+        {
+          text: 'Edit',
+          active: true,
+        },
+      ],
+    },
+  },
+  {
     path: '/sliders',
     name: 'sliders',
     component: () => import('@/views/sliders/Sliders.vue'),

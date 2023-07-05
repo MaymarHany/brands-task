@@ -31,10 +31,10 @@ export default {
       type: 'page',
       columns: [
         { key: 'id' },
-        { key: 'ar_question', label: 'question In Arabic' },
         { key: 'en_question', label: 'question In English' },
-        { key: 'ar_answer', label: 'answer In Arabic' },
         { key: 'en_answer', label: 'answer In English' },
+        { key: 'ar_question', label: 'question In Arabic' },
+        { key: 'ar_answer', label: 'answer In Arabic' },
         { key: 'actions' },
       ],
     }

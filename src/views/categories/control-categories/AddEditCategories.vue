@@ -2,6 +2,7 @@
   <b-card>
     <validation-observer
       ref="infoRules"
+      v-slot="{ invalid }"
       tag="form"
     >
       <b-row>
@@ -106,6 +107,7 @@
             v-if="!loader && $route.params.id"
             variant="primary"
             class="mr-1"
+            :disabled="invalid || Object.values(errors).length > 0"
             @click="addcategory()"
           >
             Save Changes
@@ -114,6 +116,7 @@
             v-if="!loader && !$route.params.id"
             variant="primary"
             class="mr-1"
+            :disabled="invalid || Object.values(errors).length > 0"
             @click="addcategory()"
           >
             Add
@@ -156,6 +159,8 @@ export default {
       file: '',
       image: '',
       en_image: '',
+      errors: {},
+
     }
   },
   setup() {

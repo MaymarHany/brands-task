@@ -181,13 +181,13 @@ export default {
     ]),
   },
   mounted() {
-    if (
-      localStorage.getItem('accessToken') !== null
-        && this.$route.path === '/login'
-    ) {
-      console.log('enter login')
-      this.$router.push('/') // redirect to home
-    }
+    // if (
+    //   localStorage.getItem('accessToken') !== null
+    //     && this.$route.path === '/login'
+    // ) {
+    //   console.log('enter login')
+    //   this.$router.push('/') // redirect to home
+    // }
   },
   methods: {
     signin() {

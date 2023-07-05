@@ -26,7 +26,11 @@ axios.interceptors.response.use(response => response, async error => {
     return Promise.reject(error)
   } if (error.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true
-    await store.dispatch('login/refreshToken')
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('user_info')
+    router.push({ name: 'login' })
+    // await store.dispatch('login/refreshToken')
     return axios(originalRequest)
   }
   return Promise.reject(error)

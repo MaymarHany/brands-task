@@ -31,10 +31,10 @@ export default {
   components: { GeneralTable },
   data() {
     return {
-      APIURL: 'about-us/about_us',
+      APIURL: 'about-us/services',
       addType: 'Add Section',
-      addComponentName: 'add-about-us',
-      editComponent: 'edit-about-us',
+      addComponentName: 'add-service',
+      editComponent: 'edit-service',
       viewContent: true,
       type: 'page',
       columns: [

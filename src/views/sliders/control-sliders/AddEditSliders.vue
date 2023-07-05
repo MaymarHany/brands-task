@@ -10,7 +10,6 @@
           <validation-provider
             #default="validationContext"
             name="Title (En)"
-            rules="required"
           >
             <b-form-group
               label="Title (En)"
@@ -35,7 +34,6 @@
           <validation-provider
             #default="validationContext"
             name="Title (Ar)"
-            rules="required"
           >
             <b-form-group
               label="Title (Ar)"
@@ -60,7 +58,6 @@
 
           <validation-provider
             #default="validationContext"
-            rules="required"
             name="Caption (En)"
           >
             <b-form-group
@@ -86,7 +83,6 @@
 
           <validation-provider
             #default="validationContext"
-            rules="required"
             name="Caption (Ar)"
           >
             <b-form-group
@@ -112,7 +108,6 @@
           <validation-provider
             #default="validationContext"
             name="Link (En)"
-            rules="required"
           >
             <b-form-group
               label="Link (En)"
@@ -137,7 +132,6 @@
           <validation-provider
             #default="validationContext"
             name="Link (Ar)"
-            rules="required"
           >
             <b-form-group
               label="Link (Ar)"
@@ -187,6 +181,7 @@
               >
                 Upload Image (En)
               </b-button>
+
               <b-form-file
                 ref="refEnImg"
                 accept=".jpg, .png, .jpeg"
@@ -194,6 +189,7 @@
                 plain
                 @change="changeEnImage($event)"
               />
+
               <!--/ upload button -->
             </b-media-body>
           </b-media>
@@ -254,6 +250,7 @@
         >
           <b-button
             v-if="!loader && $route.params.id"
+            :disabled="sliderForm.en_image==null || sliderForm.ar_image==null"
             variant="primary"
             class="mr-1"
             @click="addSlider()"
@@ -264,8 +261,10 @@
             v-if="!loader && !$route.params.id"
             variant="primary"
             class="mr-1"
+            :disabled="sliderForm.en_image==null || sliderForm.ar_image==null"
             @click="addSlider()"
           >
+
             Add
           </b-button>
           <b-button

@@ -42,13 +42,41 @@ export default [
     action: 'browes',
 
   },
-
   {
     title: 'About Us',
-    route: 'about-us',
     icon: 'InfoIcon',
-    action: 'browes',
+    children: [
+      {
+        title: 'Sections',
+        route: 'about-us',
+        action: 'browes',
 
+      },
+      {
+        title: 'Features',
+        route: 'about-us-features',
+        action: 'browes',
+
+      },
+    ],
+  },
+  {
+    title: 'Services',
+    icon: 'BookIcon',
+    children: [
+      {
+        title: 'Sections',
+        route: 'services',
+        action: 'browes',
+
+      },
+      {
+        title: 'Features',
+        route: 'service-features',
+        action: 'browes',
+
+      },
+    ],
   },
 
   {

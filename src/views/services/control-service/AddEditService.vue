@@ -265,7 +265,7 @@ export default {
     const images = ref([])
 
     const aboutForm = ref({
-      type: 'ABOUT_US',
+      type: 'SERVICES',
       image: null,
     })
     return {
@@ -499,6 +499,7 @@ export default {
           // eslint-disable-next-line prefer-destructuring
           this.aboutForm = res.data.data[0]
         }).catch(() => {
+          // this.formData = new FormData()
         }).finally(() => {
           this.dataLoad = false
         })

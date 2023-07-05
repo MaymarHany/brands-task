@@ -103,7 +103,6 @@
             :items="rows"
             :fields="columns"
             :current-page="currentPage"
-            :per-page="perPage"
             aria-busy="true"
             class="position-relative"
             responsive
@@ -135,6 +134,7 @@
 
                 :src="value.item.en_image"
               /></template>
+
             <template v-slot:cell(image)="value">
               <b-img
                 v-img
@@ -288,45 +288,7 @@
           </b-table>
         </b-col>
       </b-row>
-      <div class="mx-2 mb-2">
-        <b-row>
 
-          <b-col
-            cols="12"
-            sm="12"
-          >
-
-            <!-- pagination -->
-            <b-pagination
-              :value="page"
-              :total-rows="totalRows"
-              :per-page="perPage"
-              align="end"
-              first-number
-              last-number
-              :total-visible="7"
-              class="mb-0 mt-1"
-              prev-class="prev-item"
-              next-class="next-item"
-              aria-controls="my-table"
-              @input="getAllData($event)"
-            >
-              <template #prev-text>
-                <feather-icon
-                  icon="ChevronLeftIcon"
-                  size="18"
-                />
-              </template>
-              <template #next-text>
-                <feather-icon
-                  icon="ChevronRightIcon"
-                  size="18"
-                />
-              </template>
-            </b-pagination>
-          </b-col>
-        </b-row>
-      </div>
     </b-card>
   </div>
 </template>
@@ -752,7 +714,6 @@ export default {
           this.rows = items
 
           this.totalRows = res.data.data.count
-          this.perPage = 10
           this.$router.push({ query: { ...this.$route.query, page } }).catch(() => {})
           this.page = page
           if (this.exportData) {
@@ -788,16 +749,40 @@ export default {
         confirmButtonText: 'Yes, delete it!',
       }).then(result => {
         if (result.isConfirmed) {
-          axios.delete(`${this.apiUrl}/${id}`).then(() => {
-            this.$swal(
-              'Deleted!',
-              'Deleted Successfully.',
-              'success',
-            )
-            this.getAllData()
-          }).finally(() => {
-            this.loading = false
-          })
+          if (this.apiUrl.includes('about-us/about_us') || this.apiUrl.includes('about-us/services')) {
+            axios.delete(`admin/about-us/${id}`).then(() => {
+              this.$swal(
+                'Deleted!',
+                'Deleted Successfully.',
+                'success',
+              )
+              this.getAllData()
+            }).finally(() => {
+              this.loading = false
+            })
+          } else if (this.apiUrl.includes('about-us-features')) {
+            axios.delete(`admin/about-us-features/${id}`).then(() => {
+              this.$swal(
+                'Deleted!',
+                'Deleted Successfully.',
+                'success',
+              )
+              this.getAllData()
+            }).finally(() => {
+              this.loading = false
+            })
+          } else {
+            axios.delete(`${this.apiUrl}/${id}`).then(() => {
+              this.$swal(
+                'Deleted!',
+                'Deleted Successfully.',
+                'success',
+              )
+              this.getAllData()
+            }).finally(() => {
+              this.loading = false
+            })
+          }
         }
       })
     },

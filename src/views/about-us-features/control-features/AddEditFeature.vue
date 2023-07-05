@@ -7,23 +7,23 @@
     >
       <b-row>
         <b-col md="6">
-          <!-- Name -->
+          <!-- Title -->
           <validation-provider
             #default="validationContext"
-            name="Name"
+            name="Title (En)"
             rules="required"
           >
             <b-form-group
-              label="Name"
-              label-for="name"
+              label="Title (En)"
+              label-for="title"
             >
               <b-form-input
-                id="name"
-                v-model="testimonialForm.name"
+                id="title"
+                v-model="featuresForm.title_en"
                 autofocus
                 :state="getValidationState(validationContext)"
                 trim
-                placeholder="Name"
+                placeholder="Title"
               />
               <b-form-invalid-feedback>
                 {{ validationContext.errors[0] }}
@@ -32,23 +32,23 @@
           </validation-provider>
         </b-col>
         <b-col md="6">
-          <!-- position -->
+          <!-- Title -->
           <validation-provider
             #default="validationContext"
-            name="Position"
+            name="Title (Ar)"
             rules="required"
           >
             <b-form-group
-              label="Position"
-              label-for="position"
+              label="Title (Ar)"
+              label-for="title"
             >
               <b-form-input
-                id="position"
-                v-model="testimonialForm.position"
+                id="title"
+                v-model="featuresForm.title_ar"
                 autofocus
                 :state="getValidationState(validationContext)"
                 trim
-                placeholder="Position"
+                placeholder="Title"
               />
               <b-form-invalid-feedback>
                 {{ validationContext.errors[0] }}
@@ -56,25 +56,24 @@
             </b-form-group>
           </validation-provider>
         </b-col>
-
         <b-col md="6">
-          <!-- Content -->
+          <!-- content -->
 
           <validation-provider
             #default="validationContext"
             rules="required"
-            name="Content"
+            name="content (En)"
           >
             <b-form-group
-              label="Content"
-              label-for="Content"
+              label="content (En)"
+              label-for="content"
             >
               <b-form-textarea
-                id="Content"
-                v-model="testimonialForm.content"
+                id="content"
+                v-model="featuresForm.content_en"
                 trim
                 type="text"
-                placeholder="Content"
+                placeholder="content"
                 :state="getValidationState(validationContext)"
               />
               <b-form-invalid-feedback>
@@ -83,7 +82,70 @@
             </b-form-group>
           </validation-provider>
         </b-col>
+        <b-col md="6">
+          <!-- content -->
 
+          <validation-provider
+            #default="validationContext"
+            rules="required"
+            name="content (Ar)"
+          >
+            <b-form-group
+              label="content (Ar)"
+              label-for="content"
+            >
+              <b-form-textarea
+                id="content"
+                v-model="featuresForm.content_ar"
+                trim
+                type="text"
+                placeholder="content"
+                :state="getValidationState(validationContext)"
+              />
+              <b-form-invalid-feedback>
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </validation-provider>
+        </b-col>
+        <b-col md="6">
+          <validation-provider
+            #default="validationContext"
+            rules="required"
+            name="About"
+          >
+            <b-form-group
+              label="About Us Section (id - title)"
+              label-for="About"
+            >
+              <v-select
+                v-model="featuresForm.about_us_id"
+                :options="about"
+                :filterable="false"
+                label="title"
+                :reduce="about => about.id"
+                @search="searchAbout"
+              >
+                <template
+                  slot="option"
+                  slot-scope="option"
+                >
+                  {{ option.id }} - {{ option.title }}
+                </template>
+                <template
+                  slot="selected-option"
+                  slot-scope="option"
+                >
+                  {{ option.id }} - {{ option.title }}
+                </template>
+              </v-select>
+
+              <b-form-invalid-feedback>
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </validation-provider>
+        </b-col>
         <b-col cols="6">
           <b-media
             no-body
@@ -91,14 +153,16 @@
           >
             <b-media-aside>
               <b-link>
-                <b-img
-                  ref="previewEl"
-                  v-img
-                  rounded
-                  :src="testimonialForm.avatar"
-                  height="100"
-                  width="100"
-                />
+                <div class="conOfIcon">
+                  <b-img
+                    ref="previewEl"
+                    v-img
+                    rounded
+                    :src="featuresForm.icon"
+                    width="24"
+                  />
+                </div>
+
               </b-link>
               <!--/ image -->
             </b-media-aside>
@@ -109,16 +173,16 @@
                 variant="primary"
                 size="sm"
                 class="mb-75 mr-75"
-                @click="selectImg()"
+                @click="selectIcon()"
               >
                 Upload Image
               </b-button>
               <b-form-file
-                ref="refImg"
+                ref="refIcon"
                 accept=".jpg, .png, .jpeg"
                 :hidden="true"
                 plain
-                @change="changeImage($event)"
+                @change="changeIcon($event)"
               />
               <!--/ upload button -->
             </b-media-body>
@@ -143,7 +207,7 @@
             variant="primary"
             class="mr-1"
             :disabled="invalid || Object.values(errors).length > 0"
-            @click="addTestimonial()"
+            @click="addfeatures()"
           >
             Save Changes
           </b-button>
@@ -152,7 +216,7 @@
             variant="primary"
             class="mr-1"
             :disabled="invalid || Object.values(errors).length > 0"
-            @click="addTestimonial()"
+            @click="addfeatures()"
           >
             Add
           </b-button>
@@ -179,53 +243,55 @@
 import { ref } from '@vue/composition-api'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import { required } from '@validations'
-
 import axios from 'axios'
+import vSelect from 'vue-select'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 // eslint-disable-next-line no-unused-vars
 import _ from 'lodash'
 
 export default {
+  components: {
+    vSelect,
+  },
   data() {
     return {
       required,
       id: this.$store.state.generalIds.id,
+      selected: [],
+      allSelected: [],
+      indeterminate: false,
+      about: [],
+      countryId: '',
       loader: false,
-      file: '',
-      avatar: '',
-      en_image: '',
       errorMsg: '',
       errors: {},
+      icon: '',
 
     }
   },
   setup() {
     const { getValidationState } = formValidation()
-    const testimonialForm = ref({
-      avatar: null,
-
+    const featuresForm = ref({
+      icon: null,
     })
-    // eslint-disable-next-line camelcase
-    const file = ref('')
 
     return {
       getValidationState,
-      testimonialForm,
-      file,
+      featuresForm,
     }
   },
   mounted() {
-    this.showTestimonial()
+    this.getAbout()
+    this.showfeatures()
   },
   methods: {
-
-    selectImg() {
-      this.$refs.refImg.$el.click()
+    selectIcon() {
+      this.$refs.refIcon.$el.click()
     },
 
-    changeImage(e) {
+    changeIcon(e) {
       // eslint-disable-next-line prefer-destructuring
-      this.avatar = e.target.files[0]
+      this.icon = e.target.files[0]
       const input = e.target
       const img = new Image()
       img.src = window.URL.createObjectURL(e.target.files[0])
@@ -233,48 +299,71 @@ export default {
         if (input.files) {
           const reader = new FileReader()
           reader.onload = er => {
-            this.testimonialForm.avatar = er.target.result
+            this.featuresForm.icon = er.target.result
           }
 
           // eslint-disable-next-line prefer-destructuring
-          this.avatar = input.files[0]
+          this.icon = input.files[0]
           reader.readAsDataURL(input.files[0])
         }
       }
     },
-    showTestimonial() {
+
+    showfeatures() {
       if (this.$route.params.id) {
-        axios.get(`admin/testimonials/${this.$route.params.id}`).then(res => {
-          this.testimonialForm = res.data.data
+        axios.get(`about-us-features/${this.$route.params.id}`).then(res => {
+          // eslint-disable-next-line prefer-destructuring
+          this.featuresForm = res.data.data[0]
         })
       } else {
         return false
       }
       return true
     },
-    addTestimonial() {
+    async searchAbout(searchQuery) {
+      await axios.get(`admin/about-us/about_us?search=${searchQuery}`).then(res => {
+        if (res.status === 200) {
+          this.about = res.data?.data.about
+        }
+      })
+    },
+
+    async getAbout() {
+      await axios.get('about-us/about_us').then(res => {
+        if (res.status === 200) {
+          this.about = res.data?.data
+        }
+      })
+    },
+    addfeatures() {
       if (this.$route.params.id) {
         this.loader = true
         const formData = new FormData()
+
         // eslint-disable-next-line no-restricted-syntax, guard-for-in
-        for (const key in this.testimonialForm) {
-          if (key !== 'avatar') {
-            formData.append(key, this.testimonialForm[key])
+        for (const key in this.featuresForm) {
+          if (key !== 'icon') {
+            formData.append(key, this.featuresForm[key])
+            console.log(key, this.featuresForm[key])
           }
         }
-        formData.delete('avatar')
-        if (this.avatar) {
-          formData.append('avatar', this.avatar)
+        formData.delete('icon')
+        formData.delete('created_at')
+
+        if (this.icon) {
+          formData.append('icon', this.icon)
         }
-        axios.post(`admin/testimonials/${this.$route.params.id}`, formData).then(res => {
-          if (res.status === 200) {
-            this.$router.push({ name: 'testimonials' })
+
+        axios.post(`admin/about-us-features/${this.$route.params.id}`, formData).then(res => {
+          if (res.status === 200 || res.status === 201) {
+            this.$router.push({ name: 'about-us-features' })
             this.$toasted.show('Updated Successfully', {
               position: 'top-center',
               duration: 3000,
             })
           }
         }).catch(error => {
+          console.log(error.response, 'error')
           if (error.response.status === 500) {
             this.$toast({
               component: ToastificationContent,
@@ -292,21 +381,23 @@ export default {
         })
       } else {
         const formData = new FormData()
+
         // eslint-disable-next-line no-restricted-syntax, guard-for-in
-        for (const key in this.testimonialForm) {
-          if (key !== 'avatar') {
-            formData.append(key, this.testimonialForm[key])
+        for (const key in this.featuresForm) {
+          if (key !== 'icon') {
+            formData.append(key, this.featuresForm[key])
+            console.log(key, this.featuresForm[key])
           }
         }
-        formData.delete('avatar')
-        if (this.avatar) {
-          formData.append('avatar', this.avatar)
-        }
+        formData.delete('icon')
 
+        if (this.icon) {
+          formData.append('icon', this.icon)
+        }
         this.loader = true
-        axios.post('admin/testimonials', formData).then(res => {
+        axios.post('admin/about-us-features', formData).then(res => {
           if (res.status === 200 || res.status === 201) {
-            this.$router.push({ name: 'testimonials' })
+            this.$router.push({ name: 'about-us-features' })
             this.$toasted.show('Created Successfully', {
               position: 'top-center',
               duration: 3000,
@@ -337,5 +428,13 @@ export default {
 </script>
 
   <style lang="scss">
+   .conOfIcon{
+  background: linear-gradient(225.53deg, #4881FF -32.29%, #3BE692 135.95%);
+  width: 48px;
+height: 48px;
+padding: 12px;
+border-radius: 8px;
+
+ }
   @import '@core/scss/vue/libs/vue-select.scss';
   </style>
