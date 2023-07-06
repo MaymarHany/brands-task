@@ -789,7 +789,7 @@ export default {
         confirmButtonText: 'Yes, delete it!',
       }).then(result => {
         if (result.isConfirmed) {
-          if (this.apiUrl.includes('about-us/about_us') || this.apiUrl.includes('about-us/services')) {
+          if (this.apiUrl.includes('about-us/about_us') || this.apiUrl.includes('about-us/services') || this.apiUrl.includes('home-about-us')) {
             axios.delete(`admin/about-us/${id}`).then(() => {
               this.$swal(
                 'Deleted!',
