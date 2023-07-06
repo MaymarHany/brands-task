@@ -23,7 +23,6 @@
           <validation-provider
             #default="validationContext"
             name="Title (En)"
-            rules="required"
           >
             <b-form-group
               label="Title (En)"
@@ -48,7 +47,6 @@
           <validation-provider
             #default="validationContext"
             name="Title (Ar)"
-            rules="required"
           >
             <b-form-group
               label="Title (Ar)"
@@ -80,13 +78,11 @@
               label="Content (En)"
               label-for="Content"
             >
-              <b-form-textarea
-                id="Content"
+
+              <quill-editor
+                ref="myQuillEditor"
                 v-model="aboutForm.content_en"
-                trim
-                type="text"
-                placeholder="Content (En)"
-                :state="getValidationState(validationContext)"
+                :options="editorOption"
               />
               <b-form-invalid-feedback>
                 {{ validationContext.errors[0] }}
@@ -106,14 +102,12 @@
               label="Content (Ar)"
               label-for="Content"
             >
-              <b-form-textarea
-                id="Content"
+              <quill-editor
+                ref="myQuillEditor"
                 v-model="aboutForm.content_ar"
-                trim
-                type="text"
-                placeholder="Content (Ar)"
-                :state="getValidationState(validationContext)"
+                :options="editorOption"
               />
+
               <b-form-invalid-feedback>
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
@@ -237,9 +231,11 @@ import { required } from '@validations'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 // eslint-disable-next-line no-unused-vars
 import _ from 'lodash'
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
   components: {
+    quillEditor,
   },
   data() {
     return {
@@ -256,7 +252,11 @@ export default {
       dataLoad: false,
       cardsCount: 1,
       image: '',
+      editorOption: {
 
+        placeholder: 'Enter Text',
+        theme: 'snow',
+      },
     }
   },
   setup() {
@@ -351,155 +351,19 @@ export default {
         // eslint-disable-next-line prefer-destructuring
       }
     },
-    deleteImg(id, index) {
-      if (id) {
-        axios.get(`admin/delete_campaign_media/${id}`).then(res => {
-          if (res.status === 200) {
-            this.showType()
-            this.$toast({
-              component: ToastificationContent,
-              props: {
-                title: 'Deleted Succesfully',
-                icon: 'BellIcon',
-                variant: 'success',
-              },
-            })
-          } else {
-            this.$toast({
-              component: ToastificationContent,
-              props: {
-                title: 'Server Error',
-                icon: 'BellIcon',
-                variant: 'danger',
-              },
-            })
-          }
-        }).catch(() => {
-        // this.formData = new FormData()
-        }).finally(() => {
-          this.dataLoad = false
-        })
-      } else {
-        this.aboutForm.images.splice(index, 1)
-        this.images.splice(index, 1)
-        this.$toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Deleted Succesfully',
-            icon: 'BellIcon',
-            variant: 'success',
-          },
-        })
-      }
-    },
-    deleteCard(id, index) {
-      if (this.cardsCount > 1) {
-        if (id) {
-          axios.get(`admin/delete_card/${id}`).then(res => {
-            if (res.status === 200) {
-              this.showType()
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: 'Deleted Succesfully',
-                  icon: 'BellIcon',
-                  variant: 'success',
-                },
-              })
-            } else {
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: 'Server Error',
-                  icon: 'BellIcon',
-                  variant: 'danger',
-                },
-              })
-            }
-          }).catch(() => {
-            // this.formData = new FormData()
-          }).finally(() => {
-            this.loader = false
-          })
-        } else {
-          this.cards.splice(index, 1)
-          this.cardsCount -= 1
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Deleted Succesfully',
-              icon: 'BellIcon',
-              variant: 'success',
-            },
-          })
-        }
-      } else {
-        this.$toast({
-          component: ToastificationContent,
-          props: {
-            title: 'At Least one card is required',
-            icon: 'BellIcon',
-            variant: 'danger',
-          },
-        })
-      }
-    },
-    deleteVideo(id, index) {
-      if (id) {
-        axios.get(`admin/delete_campaign_media/${id}`).then(res => {
-          if (res.status === 200) {
-            this.showType()
-            this.$toast({
-              component: ToastificationContent,
-              props: {
-                title: 'Deleted Succesfully',
-                icon: 'BellIcon',
-                variant: 'success',
-              },
-            })
-          } else {
-            this.$toast({
-              component: ToastificationContent,
-              props: {
-                title: 'Server Error',
-                icon: 'BellIcon',
-                variant: 'danger',
-              },
-            })
-          }
-        }).catch(() => {
-          // this.formData = new FormData()
-        }).finally(() => {
-          this.loader = false
-        })
-      } else {
-        this.videos.splice(index, 1)
 
-        this.videosCount -= 1
-
-        this.$toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Deleted Succesfully',
-            icon: 'BellIcon',
-            variant: 'success',
-          },
-        })
-      }
-    },
     openCardDialog(card) {
       this.cardEdit = card
       this.$refs.editCard.show()
     },
     showType() {
-      this.dataLoad = true
-
       if (this.$route.params.id) {
+        this.dataLoad = true
+
         axios.get(`admin/about-us-show/${this.$route.params.id}`).then(res => {
           // eslint-disable-next-line prefer-destructuring
           this.aboutForm = res.data.data[0]
         }).catch(() => {
-          // this.formData = new FormData()
         }).finally(() => {
           this.dataLoad = false
         })
@@ -623,7 +487,7 @@ export default {
 
   <style lang="scss">
   @import '@core/scss/vue/libs/vue-select.scss';
-
+  @import '@core/scss/vue/libs/quill.scss';
   .deleteImgIcon{
     cursor: pointer;
     color: grey;

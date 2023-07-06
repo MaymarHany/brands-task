@@ -80,14 +80,12 @@
               label="Content (En)"
               label-for="Content"
             >
-              <b-form-textarea
-                id="Content"
+              <quill-editor
+                ref="myQuillEditor"
                 v-model="aboutForm.content_en"
-                trim
-                type="text"
-                placeholder="Content (En)"
-                :state="getValidationState(validationContext)"
+                :options="editorOption"
               />
+
               <b-form-invalid-feedback>
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
@@ -106,13 +104,10 @@
               label="Content (Ar)"
               label-for="Content"
             >
-              <b-form-textarea
-                id="Content"
+              <quill-editor
+                ref="myQuillEditor"
                 v-model="aboutForm.content_ar"
-                trim
-                type="text"
-                placeholder="Content (Ar)"
-                :state="getValidationState(validationContext)"
+                :options="editorOption"
               />
               <b-form-invalid-feedback>
                 {{ validationContext.errors[0] }}
@@ -268,9 +263,11 @@ import { required } from '@validations'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 // eslint-disable-next-line no-unused-vars
 import _ from 'lodash'
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
   components: {
+    quillEditor,
   },
   data() {
     return {
@@ -287,6 +284,11 @@ export default {
       dataLoad: false,
       cardsCount: 1,
       image: '',
+      editorOption: {
+
+        placeholder: 'Enter Text',
+        theme: 'snow',
+      },
 
     }
   },

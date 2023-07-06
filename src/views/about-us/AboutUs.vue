@@ -12,6 +12,7 @@
       :columns="columns"
       :type="type"
       :selectable="false"
+      :about-type="true"
     >
       <template
         v-slot:cell(content)="value"

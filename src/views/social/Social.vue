@@ -531,7 +531,6 @@ export default {
       for (const key in this.socialForm) {
         if (key !== 'ar_color_logo' || key !== 'en_color_logo' || key !== 'en_white_logo' || key !== 'ar_white_logo') {
           formData.append(key, this.socialForm[key])
-          console.log(key, this.socialForm[key])
         }
       }
       formData.delete('ar_color_logo')

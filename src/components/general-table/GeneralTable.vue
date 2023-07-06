@@ -82,7 +82,36 @@
         </b-col>
 
       </b-row>
+      <b-col
+        v-if="aboutType"
+        cols="12"
+        md="3"
+      >
+        <b-form-group
+          v-slot="{ ariaDescribedby }"
+          label="Show List Of"
+        >
+          <b-form-radio-group
+            id="radio-group-2"
+            v-model="selectedAboutType"
+            :aria-describedby="ariaDescribedby"
+            name="radio-sub-component"
+            @change="getAllData"
+          >
+            <b-form-radio
+              value="0"
+            >
+              About Us
+            </b-form-radio>
+            <b-form-radio
+              value="1"
+            >
+              Home
+            </b-form-radio>
 
+          </b-form-radio-group>
+        </b-form-group>
+      </b-col>
       <b-row>
         <b-col
           md="12"
@@ -351,6 +380,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    aboutType: {
+      type: Boolean,
+      default: () => false,
+    },
     editContent: {
       type: Boolean,
       default: () => true,
@@ -398,6 +431,7 @@ export default {
       isBusy: false,
       selectedSearchType: this.$route.query.type,
       searchCodeQuery: '',
+      selectedAboutType: '0',
       currentPage: 1,
       perPage: 15,
       searchQuery: this.$route.query.search,
@@ -704,7 +738,13 @@ export default {
         search: this.searchQuery || this.$route.query.search,
 
       }
-
+      if (this.aboutType) {
+        if (this.selectedAboutType === '0') {
+          this.apiUrl = 'about-us/about_us'
+        } else {
+          this.apiUrl = 'home-about-us'
+        }
+      }
       const promis = axios.get(this.apiUrl, {
         params,
       })

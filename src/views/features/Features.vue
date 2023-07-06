@@ -31,6 +31,7 @@ export default {
       type: 'page',
       columns: [
         { key: 'id' },
+        { key: 'category_en_name', label: 'Category' },
         { key: 'en_title', label: 'Title (En)' },
         { key: 'ar_title', label: 'Title (Ar)' },
         { key: 'en_description', label: 'description (En)' },

@@ -8,7 +8,10 @@ import {
 import VueDatetimePickerJs from 'vue-date-time-picker-js'
 import VueImg from 'v-img'
 import vueDebounce from 'vue-debounce'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
 
+import 'quill/dist/quill.bubble.css'
 import Toasted from 'vue-toasted'
 import VueSweetalert2 from 'vue-sweetalert2'
 import VJsoneditor from 'v-jsoneditor'
