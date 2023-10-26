@@ -514,6 +514,16 @@ export default {
       moduleStatus,
     }
   },
+  watch: {
+    // Watch for changes in the language (locale)
+    '$i18n.locale': {
+      handler() {
+        // Perform actions when the language changes
+        this.getAllData(this.$route.query?.page)
+      },
+      immediate: true, // Trigger the handler immediately with the current locale
+    },
+  },
 
   mounted() {
     this.getAllData(this.$route.query?.page)
@@ -537,22 +547,7 @@ export default {
         this.loadExport = false
       })
     },
-    // exportToCSV() {
-    //   this.loadExport = true
-    //   const self = this
-    //   const promis = axios.get(this.apiUrl, { params: { limit: self.perPage, export: 'csv' }, responseType: 'arraybuffer' })
-    //   return promis.then(res => {
-    //     if (res.status === 200) {
-    //       const blob = new Blob([res.data], { type: 'application/csv' })
-    //       const link = document.createElement('a')
-    //       link.href = window.URL.createObjectURL(blob)
-    //       link.download = 'exported.csv'
-    //       link.click()
-    //     }
-    //   }).finally(() => {
-    //     this.loadExport = false
-    //   })
-    // },
+
     onRowSelected(items) {
       const rows = []
       // eslint-disable-next-line array-callback-return
@@ -574,96 +569,7 @@ export default {
     showPopover() {
       this.popoverShow = true
     },
-    changeStatus(data) {
-      this.$swal({
-        title: 'Are you sure that you want to change status?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Change it!',
-      }).then(result => {
-        if (result.isConfirmed) {
-          if (data.active === false) {
-            this.setFormData(data)
-            this.formData.append('activation_at', this.currentTime)
-            this.formData.append('_method', 'PUT')
-            axios.post(`${this.apiUrl}/${data.id}`, this.formData).then(res => {
-              if (res.status === 200) {
-                this.$swal(
-                  'Changed!',
-                  'Changed Successfully.',
-                  'success',
-                )
-                this.getAllData()
-              }
-            })
-          } else {
-            this.setFormData(data)
-            this.formData.append('activation_at', '')
-            this.formData.append('_method', 'PUT')
-            axios.post(`${this.apiUrl}/${data.id}`, this.formData).then(res => {
-              if (res.status === 200) {
-                this.$swal(
-                  'Changed!',
-                  'Changed Successfully.',
-                  'success',
-                )
-                this.getAllData()
-              }
-            })
-          }
-        }
-      })
-    },
-    changeSchangeActivetatus(data) {
-      this.$swal({
-        title: 'Are you sure that you want to change status?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Change it!',
-      }).then(result => {
-        if (result.isConfirmed) {
-          if (data.is_active === false) {
-            this.setFormData(data)
-            this.formData.append('is_active', 1)
-            if (data.expire_at) {
-              this.formData.append('expire_at', data.expire_at.slice(0, 10))
-            }
-            this.formData.append('_method', 'PUT')
-            axios.post(`${this.apiUrl}/${data.id}`, this.formData).then(res => {
-              if (res.status === 200) {
-                this.$swal(
-                  'Changed!',
-                  'Changed Successfully.',
-                  'success',
-                )
-                this.getAllData()
-              }
-            })
-          } else {
-            this.setFormData(data)
-            this.formData.append('is_active', 0)
-            if (data.expire_at) {
-              this.formData.append('expire_at', data.expire_at.slice(0, 10))
-            }
-            this.formData.append('_method', 'PUT')
-            axios.post(`${this.apiUrl}/${data.id}`, this.formData).then(res => {
-              if (res.status === 200) {
-                this.$swal(
-                  'Changed!',
-                  'Changed Successfully.',
-                  'success',
-                )
-                this.getAllData()
-              }
-            })
-          }
-        }
-      })
-    },
+
     editToPage(id) {
       if (this.type === 'page') {
         this.$router.push({ name: this.editComponent, params: { id } })
@@ -789,40 +695,16 @@ export default {
         confirmButtonText: 'Yes, delete it!',
       }).then(result => {
         if (result.isConfirmed) {
-          if (this.apiUrl.includes('about-us/about_us') || this.apiUrl.includes('about-us/services') || this.apiUrl.includes('home-about-us')) {
-            axios.delete(`admin/about-us/${id}`).then(() => {
-              this.$swal(
-                'Deleted!',
-                'Deleted Successfully.',
-                'success',
-              )
-              this.getAllData()
-            }).finally(() => {
-              this.loading = false
-            })
-          } else if (this.apiUrl.includes('about-us-features')) {
-            axios.delete(`admin/about-us-features/${id}`).then(() => {
-              this.$swal(
-                'Deleted!',
-                'Deleted Successfully.',
-                'success',
-              )
-              this.getAllData()
-            }).finally(() => {
-              this.loading = false
-            })
-          } else {
-            axios.delete(`${this.apiUrl}/${id}`).then(() => {
-              this.$swal(
-                'Deleted!',
-                'Deleted Successfully.',
-                'success',
-              )
-              this.getAllData()
-            }).finally(() => {
-              this.loading = false
-            })
-          }
+          axios.delete(`${this.apiUrl}/Remove/${id}`).then(() => {
+            this.$swal(
+              'Deleted!',
+              'Deleted Successfully.',
+              'success',
+            )
+            this.getAllData()
+          }).finally(() => {
+            this.loading = false
+          })
         }
       })
     },

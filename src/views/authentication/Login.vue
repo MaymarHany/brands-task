@@ -7,12 +7,12 @@
         <b-link class="brand-logo">
           <img
             v-img
-            :src="require('@/assets/images/logo/logo.png')"
+            :src="require('@/assets/images/logo/logo.jpg')"
             width="200"
           >
         </b-link>
         <b-card-title class="mb-1">
-          Welcome to propertyNet! 👋
+          Welcome to ISSAGATE! 👋
         </b-card-title>
         <b-card-text class="mb-2">
           Please sign-in to your account and start the adventure
@@ -43,7 +43,7 @@
               >
                 <b-form-input
                   id="email"
-                  v-model="loginData.email"
+                  v-model="loginData.username"
                   name="login-email"
                   :state="errors.length > 0 ? false:null"
                   placeholder=""

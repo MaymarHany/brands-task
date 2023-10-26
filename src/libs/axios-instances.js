@@ -6,12 +6,16 @@ import store from '@/store'
 import router from '@/router'
 
 export default function axiosSetUp() {
-  axios.defaults.baseURL = 'https://propertyapi.cat-sw.com/API/v1/'
+  axios.defaults.baseURL = 'https://interview.intelligent-systems-solutions.com/api'
   axios.interceptors.request.use(config => {
     const token = localStorage.getItem('accessToken')
+    const lang = localStorage.getItem('language_code')
+
     if (token) {
       // eslint-disable-next-line no-param-reassign
       config.headers.Authorization = `Bearer ${token}`
+      // eslint-disable-next-line no-param-reassign
+      config.headers['content-lang'] = lang
       // config.headers.setAttribute('Authorization', token)
     }
     return config

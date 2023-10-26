@@ -5,7 +5,7 @@
       <b-link
         class="ml-25"
         target="_blank"
-      >propertyNet</b-link>
+      >ISSAGATE</b-link>
       <span class="d-none d-sm-inline-block">, All rights Reserved</span>
     </span>
 

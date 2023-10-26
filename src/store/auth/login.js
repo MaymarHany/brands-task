@@ -56,15 +56,15 @@ export default {
   },
   actions: {
     async login({ commit, getters }, userCredentials) {
-      const loginEndPoint = 'auth/login'
+      const loginEndPoint = 'Auth/Authenticate'
       commit('SET_LOADER', true)
       try {
         await axios.post(loginEndPoint, userCredentials).then(res => {
           if (res.status === 200) {
-            localStorage.setItem('accessToken', res.data.access_token)
-            localStorage.setItem('user_info', res.data.me)
-            commit('SET_USER_INFO', res.data.me)
-            commit('SET_TOKEN', res.data.access_token)
+            localStorage.setItem('accessToken', res.data.Data.Token)
+            localStorage.setItem('user_info', res.data.Data)
+            commit('SET_USER_INFO', res.data.Data)
+            commit('SET_TOKEN', res.data.Data.Token)
             router.push('/')
             // window.location.href = '/'
           }

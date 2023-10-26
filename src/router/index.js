@@ -69,7 +69,7 @@ router.afterEach((to, from) => {
   if (appLoading) {
     appLoading.style.display = 'none'
   }
-  const DEFAULT_TITLE = 'propertyNet - Dashboard'
+  const DEFAULT_TITLE = 'ISSAGATE - Dashboard'
   Vue.nextTick(() => {
     document.title = to.meta.title || DEFAULT_TITLE
   })

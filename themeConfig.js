@@ -9,11 +9,11 @@ export const $themeBreakpoints = {}
 // APP CONFIG
 export const $themeConfig = {
   app: {
-    appName: 'propertyNet', // Will update name in navigation menu (Branding)
+    appName: 'ISSAGATE', // Will update name in navigation menu (Branding)
     // eslint-disable-next-line global-require
-    appLogoImageM: require('@/assets/images/logo/logoM.png'),
+    appLogoImageM: require('@/assets/images/logo/logoM.jpg'),
     // eslint-disable-next-line global-require
-    appLogoImage: require('@/assets/images/logo/logo.png'), // Will update logo in navigation menu (Branding)
+    appLogoImage: require('@/assets/images/logo/logo.jpg'), // Will update logo in navigation menu (Branding)
   },
   layout: {
     isRTL: false,

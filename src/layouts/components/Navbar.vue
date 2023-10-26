@@ -22,7 +22,7 @@
 
     <b-navbar-nav class="nav align-items-center ml-auto">
       <!-- <notification-dropdown /> -->
-
+      <locale-vue />
       <b-nav-item-dropdown
         right
         toggle-class="d-flex align-items-center dropdown-user-link"
@@ -31,7 +31,7 @@
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">
-              {{ accountForm.name }}
+              {{ accountForm.FullName }}
             </p>
 
           </div>
@@ -39,40 +39,10 @@
             size="40"
             variant="light-primary"
             badge
-            :src="accountForm.avatar_url"
             class="badge-minimal"
             badge-variant="success"
           />
         </template>
-
-        <!--  <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="MailIcon"
-            class="mr-50"
-          />
-          <span>Inbox</span>
-        </b-dropdown-item> -->
-
-        <!-- <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="CheckSquareIcon"
-            class="mr-50"
-          />
-          <span>Task</span>
-        </b-dropdown-item> -->
-
-        <!-- <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="MessageSquareIcon"
-            class="mr-50"
-          />
-          <span>Chat</span>
-        </b-dropdown-item> -->
-
-        <!-- <b-dropdown-divider /> -->
 
         <b-dropdown-item
           link-class="d-flex align-items-center"
@@ -99,9 +69,11 @@ import {
 import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
 import { mapGetters } from 'vuex'
 import NotificationDropdown from './NotificationDropdown.vue'
+import LocaleVue from './Locale.vue'
 
 export default {
   components: {
+    LocaleVue,
     BLink,
     BNavbarNav,
     BNavItemDropdown,
@@ -114,7 +86,8 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     NotificationDropdown,
   },
-  props: {
+
+  Localeprops: {
     toggleVerticalMenuActive: {
       type: Function,
       default: () => {},

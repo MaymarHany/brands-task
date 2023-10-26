@@ -7,12 +7,12 @@
         <b-link class="brand-logo">
           <img
             v-img
-            :src="require('@/assets/images/logo/logo.png')"
+            :src="require('@/assets/images/logo/logo.jpg')"
             width="200"
           >
         </b-link>
         <b-card-title class="my-1">
-          Welcome to propertyNet! 👋
+          Welcome to ISSAGATE! 👋
         </b-card-title>
       </b-card>
     </b-col>

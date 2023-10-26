@@ -5,28 +5,17 @@
     class="dropdown-language"
     right
   >
+
     <template #button-content>
-      <b-img
-        v-img
-        :src="currentLocale.img"
-        height="14px"
-        width="22px"
-        :alt="currentLocale.locale"
-      />
+
       <span class="ml-50 text-body">{{ currentLocale.name }}</span>
     </template>
     <b-dropdown-item
       v-for="localeObj in locales"
-      :key="localeObj.locale"
-      @click="storeLanguage(localeObj.locale)"
+      :key="localeObj.code"
+      @click="storeLanguage(localeObj.code)"
     >
-      <b-img
-        v-img
-        :src="localeObj.img"
-        height="14px"
-        width="22px"
-        :alt="localeObj.locale"
-      />
+
       <span class="ml-50">{{ localeObj.name }}</span>
     </b-dropdown-item>
   </b-nav-item-dropdown>
@@ -34,39 +23,20 @@
 
 <script>
 import useAppConfig from '@core/app-config/useAppConfig'
+import axios from 'axios'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { ref } from '@vue/composition-api'
 
 export default {
   // ! Need to move this computed property to comp function once we get to Vue 3
   computed: {
     currentLocale() {
-      return this.locales.find(l => l.locale === this.$i18n.locale)
+      return this.locales.find(l => l.code === this.$i18n.locale)
     },
   },
   setup() {
     /* eslint-disable global-require */
-    const locales = [
-      {
-        locale: 'en',
-        img: require('@/assets/images/flags/en.png'),
-        name: 'English',
-      },
-      {
-        locale: 'fr',
-        img: require('@/assets/images/flags/fr.png'),
-        name: 'French',
-      },
-      {
-        locale: 'de',
-        img: require('@/assets/images/flags/de.png'),
-        name: 'German',
-      },
-      {
-        locale: 'pt',
-        img: require('@/assets/images/flags/pt.png'),
-        name: 'Portuguese',
-      },
-    ]
-    /* eslint-disable global-require */
+    const locales = ref([])
 
     const {
       isRTL,
@@ -76,7 +46,30 @@ export default {
       isRTL,
     }
   },
+  mounted() {
+    this.getLangs()
+  },
   methods: {
+    getLangs() {
+      axios.get('Languages').then(res => {
+        if (res.status === 200 || res.status === 201) {
+          this.locales = res.data.data
+        }
+      }).catch(error => {
+        if (error.response.status === 500) {
+          this.$toast({
+            component: ToastificationContent,
+            props: {
+              link: 'Somthing Went Wrong',
+              icon: 'BellIcon',
+              variant: 'error',
+            },
+          })
+        }
+      }).finally(() => {
+        this.loader = false
+      })
+    },
     storeLanguage(lang) {
       this.$i18n.locale = lang
       localStorage.setItem('language_code', lang)
